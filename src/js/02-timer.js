@@ -16,8 +16,13 @@ const options = {
       startBtn.disabled = false;
       const startTimer = () => {
         startBtn.disabled = true;
-        setInterval(() => {
+        startBtn.removeEventListener('click', startTimer);
+        const timerId = setInterval(() => {
           const timeDelta = selectedDates[0] - Date.now();
+          if (timeDelta <= 0) {
+            clearInterval(timerId);
+            return;
+          }
           updateTimer(timeDelta);
         }, 1000);
       };
