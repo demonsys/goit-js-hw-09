@@ -12,12 +12,16 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    const timeDelta = selectedDates[0] - Date.now();
-    console.log(timeDelta);
-    if (timeDelta > 0) {
+    if (selectedDates[0] > Date.now()) {
       startBtn.disabled = false;
-      console.log(daysField);
-      daysField.textContent = addLeadingZero(convertMs(timeDelta).days);
+      const startTimer = () => {
+        startBtn.disabled = true;
+        setInterval(() => {
+          const timeDelta = selectedDates[0] - Date.now();
+          updateTimer(timeDelta);
+        }, 1000);
+      };
+      startBtn.addEventListener('click', startTimer);
     } else {
       window.alert('Please choose a date in the future');
     }
@@ -45,7 +49,9 @@ function convertMs(ms) {
 function addLeadingZero(value) {
   return String(value).padStart(2, 0);
 }
-console.log(daysField);
-function showTimer(time) {
-  daysField.textContent = addLeadingZero(time.days);
+function updateTimer(time) {
+  daysField.textContent = addLeadingZero(convertMs(time).days);
+  hoursField.textContent = addLeadingZero(convertMs(time).hours);
+  minutesField.textContent = addLeadingZero(convertMs(time).minutes);
+  secondsField.textContent = addLeadingZero(convertMs(time).seconds);
 }
