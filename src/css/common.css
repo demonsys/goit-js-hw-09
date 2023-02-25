@@ -21,7 +21,7 @@ img {
   display: flex;
   gap: 20px;
 }
-.value {
+.timer .value {
   text-align: center;
   display: block;
   font-size: large;
